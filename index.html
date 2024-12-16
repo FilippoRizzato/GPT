@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Application</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<!-- Homepage -->
+<div id="homepage">
+    <h1>Benvenuto nel Test</h1>
+    <p>Clicca il pulsante per iniziare il test. Avrai un tempo limitato per completarlo.</p>
+    <button onclick="startTest()">Inizia Test</button>
+</div>
+
+<!-- Pagina delle domande aperte -->
+<div id="open-questions" class="hidden">
+    <h2>Domande Aperte</h2>
+    <form id="open-form">
+        <label>1. Scrivi una breve introduzione su te stesso:</label><br>
+        <textarea name="question1" rows="3"></textarea><br><br>
+
+        <label>2. Quali sono i tuoi obiettivi professionali?</label><br>
+        <textarea name="question2" rows="3"></textarea><br><br>
+
+        <label>3. Descrivi una tua esperienza significativa:</label><br>
+        <textarea name="question3" rows="3"></textarea><br><br>
+
+        <button type="button" onclick="goToCloseQuestions()">Avanti</button>
+    </form>
+</div>
+
+<!-- Pagina delle domande chiuse -->
+<div id="close-questions" class="hidden">
+    <h2>Domande Chiuse</h2>
+    <form id="close-form">
+        <label>1. Qual è il tuo colore preferito?</label><br>
+        <input type="radio" name="question4" value="Rosso"> Rosso<br>
+        <input type="radio" name="question4" value="Blu"> Blu<br>
+        <input type="radio" name="question4" value="Verde"> Verde<br><br>
+
+        <label>2. Preferisci lavorare:</label><br>
+        <input type="radio" name="question5" value="Da solo"> Da solo<br>
+        <input type="radio" name="question5" value="In squadra"> In squadra<br>
+        <input type="radio" name="question5" value="Entrambi"> Entrambi<br><br>
+
+        <button type="button" onclick="submitTest()">Invia</button>
+    </form>
+</div>
+
+<!-- Timer -->
+<div id="timer" class="hidden">
+    <p>Tempo rimasto: <span class="timer" id="time">05:00</span></p>
+</div>
+
+<script>
+    let timeLeft = 300; // 5 minuti in secondi
+    let timerInterval;
+
+    function startTest() {
+        document.getElementById('homepage').classList.add('hidden');
+        document.getElementById('open-questions').classList.remove('hidden');
+        document.getElementById('timer').classList.remove('hidden');
+        startTimer();
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert('Tempo scaduto! Il test sarà inviato automaticamente.');
+                submitTest();
+            }
+        }, 1000);
+    }
+
+    function goToCloseQuestions() {
+        document.getElementById('open-questions').classList.add('hidden');
+        document.getElementById('close-questions').classList.remove('hidden');
+    }
+
+    function submitTest() {
+        clearInterval(timerInterval);
+        const openFormData = new FormData(document.getElementById('open-form'));
+        const closeFormData = new FormData(document.getElementById('close-form'));
+        const results = {};
+
+        openFormData.forEach((value, key) => {
+            results[key] = value;
+        });
+
+        closeFormData.forEach((value, key) => {
+            results[key] = value;
+        });
+
+        saveResults(results);
+    }
+
+    function saveResults(data) {
+        const text = Object.entries(data)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join('\n');
+
+        const blob = new Blob([text], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'risultati_test.txt';
+        link.click();
+
+        alert('Test completato! I risultati sono stati salvati.');
+        location.reload();
+    }
+</script>
+</body>
+</html>
