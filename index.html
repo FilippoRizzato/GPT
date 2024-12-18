@@ -1,124 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> <!-- Dichiarazione del documento HTML5 con lingua impostata su inglese. -->
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Application</title>
-    <style>
+    <meta charset="UTF-8"> <!-- Definisce la codifica dei caratteri come UTF-8 per supportare caratteri speciali. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Rende il layout responsivo per i dispositivi mobili. -->
 
-    </style>
+    <!-- Aggiungi il collegamento al CSS di Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Collega un file CSS esterno per personalizzare lo stile della pagina -->
+    <link rel="stylesheet" href="style.css">
+
+    <title>Test Application</title> <!-- Titolo che appare nella scheda del browser. -->
 </head>
-<body>
+<body class="bg-light"> <!-- Aggiunge uno sfondo chiaro alla pagina. -->
+
 <!-- Homepage -->
-<div id="homepage">
-    <h1>Benvenuto nel Test</h1>
-    <p>Clicca il pulsante per iniziare il test. Avrai un tempo limitato per completarlo.</p>
-    <button onclick="startTest()">Inizia Test</button>
+<div id="homepage" class="container text-center mt-5"> <!-- Container per centrare il contenuto e margine superiore. -->
+    <h1 class="mb-3">Benvenuto nel Test</h1> <!-- Intestazione principale della homepage. -->
+    <p class="mb-4">Clicca il pulsante per iniziare il test. Avrai un tempo limitato per completarlo.</p> <!-- Descrizione introduttiva. -->
+    <button class="btn btn-primary" onclick="startTest()">Inizia Test</button> <!-- Pulsante stilizzato con Bootstrap. -->
 </div>
 
 <!-- Pagina delle domande aperte -->
-<div id="open-questions" class="hidden">
-    <h2>Domande Aperte</h2>
-    <form id="open-form">
-        <label>1. Scrivi una breve introduzione su te stesso:</label><br>
-        <textarea name="question1" rows="3"></textarea><br><br>
+<div id="open-questions" class="container hidden mt-5"> <!-- Container per domande aperte. -->
+    <h2 class="text-center mb-4">Domande Aperte</h2> <!-- Titolo della sezione. -->
+    <form id="open-form"> <!-- Modulo per raccogliere le risposte aperte. -->
+        <div class="mb-3">
+            <label for="question1" class="form-label">1. Scrivi una breve introduzione su te stesso:</label>
+            <textarea class="form-control" id="question1" name="question1" rows="3"></textarea>
+        </div>
 
-        <label>2. Quali sono i tuoi obiettivi professionali?</label><br>
-        <textarea name="question2" rows="3"></textarea><br><br>
+        <div class="mb-3">
+            <label for="question2" class="form-label">2. Quali sono i tuoi obiettivi professionali?</label>
+            <textarea class="form-control" id="question2" name="question2" rows="3"></textarea>
+        </div>
 
-        <label>3. Descrivi una tua esperienza significativa:</label><br>
-        <textarea name="question3" rows="3"></textarea><br><br>
+        <div class="mb-3">
+            <label for="question3" class="form-label">3. Descrivi una tua esperienza significativa:</label>
+            <textarea class="form-control" id="question3" name="question3" rows="3"></textarea>
+        </div>
 
-        <button type="button" onclick="goToCloseQuestions()">Avanti</button>
+        <button type="button" class="btn btn-secondary" onclick="goToCloseQuestions()">Avanti</button> <!-- Pulsante per passare alle domande chiuse. -->
     </form>
 </div>
 
 <!-- Pagina delle domande chiuse -->
-<div id="close-questions" class="hidden">
-    <h2>Domande Chiuse</h2>
-    <form id="close-form">
-        <label>1. Qual è il tuo colore preferito?</label><br>
-        <input type="radio" name="question4" value="Rosso"> Rosso<br>
-        <input type="radio" name="question4" value="Blu"> Blu<br>
-        <input type="radio" name="question4" value="Verde"> Verde<br><br>
+<div id="close-questions" class="container hidden mt-5"> <!-- Container per domande chiuse. -->
+    <h2 class="text-center mb-4">Domande Chiuse</h2> <!-- Titolo della sezione. -->
+    <form id="close-form"> <!-- Modulo per raccogliere le risposte alle domande chiuse. -->
+        <div class="mb-3">
+            <label class="form-label">1. Qual è il tuo colore preferito?</label><br>
+            <input type="radio" id="question4_red" name="question4" value="Rosso" class="form-check-input"> Rosso<br>
+            <input type="radio" id="question4_blue" name="question4" value="Blu" class="form-check-input"> Blu<br>
+            <input type="radio" id="question4_green" name="question4" value="Verde" class="form-check-input"> Verde<br>
+        </div>
 
-        <label>2. Preferisci lavorare:</label><br>
-        <input type="radio" name="question5" value="Da solo"> Da solo<br>
-        <input type="radio" name="question5" value="In squadra"> In squadra<br>
-        <input type="radio" name="question5" value="Entrambi"> Entrambi<br><br>
+        <div class="mb-3">
+            <label class="form-label">2. Preferisci lavorare:</label><br>
+            <input type="radio" id="question5_alone" name="question5" value="Da solo" class="form-check-input"> Da solo<br>
+            <input type="radio" id="question5_team" name="question5" value="In squadra" class="form-check-input"> In squadra<br>
+            <input type="radio" id="question5_both" name="question5" value="Entrambi" class="form-check-input"> Entrambi<br>
+        </div>
 
-        <button type="button" onclick="submitTest()">Invia</button>
+        <button type="button" class="btn btn-success" onclick="submitTest()">Invia</button> <!-- Pulsante per inviare il test. -->
     </form>
 </div>
 
+
 <!-- Timer -->
-<div id="timer" class="hidden">
-    <p>Tempo rimasto: <span class="timer" id="time">05:00</span></p>
+<div id="timer" class="container hidden mt-4 text-center"> <!-- Container per il timer. -->
+    <p>Tempo rimasto: <span class="timer" id="time">05:00</span></p> <!-- Visualizzazione del tempo rimanente. -->
 </div>
 
 <script>
-    let timeLeft = 300; // 5 minuti in secondi
+    let timeLeft = 300; // 5 minuti in secondi.
     let timerInterval;
 
+    // Funzione per avviare il test
     function startTest() {
-        document.getElementById('homepage').classList.add('hidden');
-        document.getElementById('open-questions').classList.remove('hidden');
-        document.getElementById('timer').classList.remove('hidden');
-        startTimer();
+        document.getElementById('homepage').classList.add('hidden'); // Nasconde la homepage.
+        document.getElementById('open-questions').classList.remove('hidden'); // Mostra le domande aperte.
+        document.getElementById('timer').classList.remove('hidden'); // Mostra il timer.
+        startTimer(); // Avvia il timer.
     }
 
+    // Funzione per avviare il timer
     function startTimer() {
         timerInterval = setInterval(() => {
             timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
+            const minutes = Math.floor(timeLeft / 60); // Calcola i minuti rimanenti.
+            const seconds = timeLeft % 60; // Calcola i secondi rimanenti.
             document.getElementById('time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
-            if (timeLeft <= 0) {
+            if (timeLeft <= 0) { // Se il tempo scade.
                 clearInterval(timerInterval);
                 alert('Tempo scaduto! Il test sarà inviato automaticamente.');
-                submitTest();
+                submitTest(); // Invio automatico del test.
             }
-        }, 1000);
+        }, 1000); // Aggiornamento ogni secondo.
     }
 
+    // Funzione per passare alle domande chiuse
     function goToCloseQuestions() {
-        document.getElementById('open-questions').classList.add('hidden');
-        document.getElementById('close-questions').classList.remove('hidden');
+        document.getElementById('open-questions').classList.add('hidden'); // Nasconde le domande aperte.
+        document.getElementById('close-questions').classList.remove('hidden'); // Mostra le domande chiuse.
     }
 
+    // Funzione per inviare il test
     function submitTest() {
-        clearInterval(timerInterval);
-        const openFormData = new FormData(document.getElementById('open-form'));
-        const closeFormData = new FormData(document.getElementById('close-form'));
+        clearInterval(timerInterval); // Ferma il timer.
+        const openFormData = new FormData(document.getElementById('open-form')); // Raccoglie le risposte delle domande aperte.
+        const closeFormData = new FormData(document.getElementById('close-form')); // Raccoglie le risposte delle domande chiuse.
         const results = {};
 
         openFormData.forEach((value, key) => {
-            results[key] = value;
+            results[key] = value; // Salva le risposte aperte.
         });
 
         closeFormData.forEach((value, key) => {
-            results[key] = value;
+            results[key] = value; // Salva le risposte chiuse.
         });
 
-        saveResults(results);
+        saveResults(results); // Salva i risultati.
     }
 
+    // Funzione per salvare i risultati in un file
     function saveResults(data) {
         const text = Object.entries(data)
             .map(([key, value]) => `${key}: ${value}`)
-            .join('\n');
+            .join('\n'); // Converte i risultati in testo formattato.
 
-        const blob = new Blob([text], { type: 'text/plain' });
+        const blob = new Blob([text], { type: 'text/plain' }); // Crea un file di testo.
         const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'risultati_test.txt';
+        link.href = URL.createObjectURL(blob); // Crea un URL per il file.
+        link.download = 'risultati_test.txt'; // Nome del file scaricato.
         link.click();
 
         alert('Test completato! I risultati sono stati salvati.');
-        location.reload();
+        location.reload(); // Ricarica la pagina.
     }
 </script>
+
+<!-- Aggiungi il collegamento al file JavaScript di Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
